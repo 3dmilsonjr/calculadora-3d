@@ -176,12 +176,14 @@
     </header>
 
     <div class="grid">
+        <!-- COLUNA DE ENTRADAS -->
         <div>
+            <!-- GASTOS DIRETOS -->
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-title">📥 Gastos e Insumos</div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Preço do Filamento (R$):</label>
+                        <label>Preço do Filamento (R$ por kg):</label>
                         <input type="number" id="precoFilamento" value="112" oninput="calcular()">
                     </div>
                     <div class="form-group">
@@ -191,20 +193,21 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Tempo de Impressão (h):</label>
+                        <label>Tempo de Impressão (Horas):</label>
                         <input type="number" id="tempoImpressao" value="3" oninput="calcular()">
                     </div>
                     <div class="form-group">
-                        <label>Tarifa de Energia:</label>
-                        <input type="number" id="tarifa" value="3" oninput="calcular()">
+                        <label>Tarifa de Energia (R$ por kWh):</label>
+                        <input type="number" id="tarifa" value="0.90" step="0.01" oninput="calcular()">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Consumo da Impressora:</label>
-                    <input type="number" id="consumo" value="4" oninput="calcular()">
+                    <label>Consumo da Impressora (Watts):</label>
+                    <input type="number" id="consumo" value="250" oninput="calcular()">
                 </div>
             </div>
 
+            <!-- MÃO DE OBRA E OUTROS -->
             <div class="card" style="margin-bottom: 20px;">
                 <div class="card-title">🛠️ Mão de Obra e Adicionais</div>
                 <div class="form-row">
@@ -233,6 +236,7 @@
                 </div>
             </div>
 
+            <!-- CONFIGURAÇÃO BASE DA PLANILHA -->
             <div class="card">
                 <div class="card-title">⚙️ Configuração de M.O. (Aba Config)</div>
                 <div class="form-row">
@@ -256,25 +260,26 @@
             </div>
         </div>
 
+        <!-- COLUNA DE RESULTADOS -->
         <div>
             <div class="card" style="position: sticky; top: 20px;">
                 <div class="card-title">📊 Resumo do Custo Real</div>
                 
                 <div class="result-item">
                     <span class="result-label">Consumo de Filamento:</span>
-                    <span class="result-value" id="resFilamento">R$ 13,78</span>
+                    <span class="result-value" id="resFilamento">R$ 0,00</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">Consumo de Energia:</span>
-                    <span class="result-value" id="resEnergia">R$ 2,16</span>
+                    <span class="result-value" id="resEnergia">R$ 0,00</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">Valor da Mão de Obra:</span>
-                    <span class="result-value" id="resMaoObra">R$ 300,00</span>
+                    <span class="result-value" id="resMaoObra">R$ 0,00</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">Outras Obras:</span>
-                    <span class="result-value" id="resOutrasObras">R$ 15,00</span>
+                    <span class="result-value" id="resOutrasObras">R$ 0,00</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">Outros Custos:</span>
@@ -283,17 +288,17 @@
                 
                 <div class="result-item" style="border-top: 2px solid var(--border); margin-top: 10px; padding-top: 15px;">
                     <span class="result-label" style="font-size: 1.1rem; color: #0f172a;">CUSTO TOTAL:</span>
-                    <span class="result-value" style="font-size: 1.2rem; color: #0f172a;" id="resCustoTotal">R$ 330,94</span>
+                    <span class="result-value" style="font-size: 1.2rem; color: #0f172a;" id="resCustoTotal">R$ 0,00</span>
                 </div>
 
                 <div class="result-item">
                     <span class="result-label">Total de Lucro:</span>
-                    <span class="result-value" style="color: var(--success);" id="resTotalLucro">R$ 330,94</span>
+                    <span class="result-value" style="color: var(--success);" id="resTotalLucro">R$ 0,00</span>
                 </div>
 
                 <div class="highlight-box">
                     <div class="highlight-title">💰 Preço Sugerido de Venda</div>
-                    <div class="highlight-price" id="resPrecoSugerido">R$ 661,87</div>
+                    <div class="highlight-price" id="resPrecoSugerido">R$ 0,00</div>
                     <span style="font-size: 12px; color: #166534;">Markup aplicado com sucesso</span>
                 </div>
             </div>
@@ -336,22 +341,22 @@ function calcular() {
     const outrosCustos = parseFloat(document.getElementById('outrosCustos').value) || 0;
     const lucroFactor = parseFloat(document.getElementById('lucro').value) || 0;
 
-    // Cálculos idênticos aos da planilha
+    // Fórmulas de Consumo reais e claras
     const consumoFilamento = (precoFilamento / 1000) * gramas;
-    const consumoEnergia = tempoImpressao * tarifa * (consumo / 5.555); // Ajuste proporcional baseado na fórmula oculta do seu excel (3 * 3 * 4 / 16.666 ~ 2.16)
-    // Para simplificar e bater exato com o seu Excel (3 horas * tarifa 3 * consumo 4 / 16.66) -> resulta em 2.16:
-    const energiaExata = (tempoImpressao * tarifa * consumo) * 0.06; 
+    
+    // Cálculo de energia elétrica padrão de engenharia: (Watts * Horas / 1000) * Valor da Tarifa por kWh
+    const consumoEnergia = ((consumo * tempoImpressao) / 1000) * tarifa; 
 
     const valorMaoObra = precoHora * tempoHoras;
     const totalOutrosCustos = outrasObras + outrosCustos;
     
-    const custoTotal = consumoFilamento + energiaExata + valorMaoObra + totalOutrosCustos;
+    const custoTotal = consumoFilamento + consumoEnergia + valorMaoObra + totalOutrosCustos;
     const totalLucro = custoTotal * lucroFactor;
     const precoSugerido = custoTotal + totalLucro;
 
     // Atualizar Tela
     document.getElementById('resFilamento').innerText = formatarMoeda(consumoFilamento);
-    document.getElementById('resEnergia').innerText = formatarMoeda(energiaExata);
+    document.getElementById('resEnergia').innerText = formatarMoeda(consumoEnergia);
     document.getElementById('resMaoObra').innerText = formatarMoeda(valorMaoObra);
     document.getElementById('resOutrasObras').innerText = formatarMoeda(outrasObras);
     document.getElementById('resOutrosCustos').innerText = formatarMoeda(outrosCustos);
