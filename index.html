@@ -14,7 +14,6 @@
             --primary-light: #eeebff;
             --success: #10b981;
             --success-bg: #f0fdf4;
-            --accent: #f59e0b;
             --border: #e2e8f0;
             --radius-lg: 16px;
             --radius-md: 10px;
@@ -50,9 +49,6 @@
             font-weight: 700;
             margin: 0;
             color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         header p {
@@ -102,9 +98,6 @@
             margin-top: 0;
             margin-bottom: 20px;
             color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .form-grid-2 {
@@ -123,10 +116,6 @@
             margin-bottom: 16px;
             display: flex;
             flex-direction: column;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
         }
 
         label {
@@ -162,7 +151,6 @@
             transition: all 0.2s ease;
         }
 
-        /* Inputs com prefixo R$ precisam de espaço extra à esquerda */
         .with-prefix input {
             padding-left: 38px;
         }
@@ -173,16 +161,10 @@
             box-shadow: var(--shadow-focus);
         }
 
-        /* Coluna de Resultados (Sticky) */
         .results-sidebar {
             position: sticky;
             top: 24px;
             height: fit-content;
-        }
-
-        .results-card {
-            background: #ffffff;
-            border: 1px solid var(--border);
         }
 
         .result-row {
@@ -200,9 +182,6 @@
 
         .result-label {
             color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .result-value {
@@ -219,20 +198,12 @@
         .custo-total-box .result-label {
             color: #0f172a;
             font-weight: 600;
-            font-size: 1.05rem;
         }
 
         .custo-total-box .result-value {
             font-size: 1.2rem;
             color: #0f172a;
             font-weight: 700;
-        }
-
-        .profit-box {
-            color: var(--success);
-        }
-        .profit-box .result-value {
-            color: var(--success);
         }
 
         .pricing-hero {
@@ -242,23 +213,19 @@
             border-radius: var(--radius-md);
             text-align: center;
             margin-top: 24px;
-            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
         }
 
         .pricing-hero-title {
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
             color: #c7d2fe;
             font-weight: 600;
-            margin-bottom: 4px;
         }
 
         .pricing-hero-value {
             font-size: 2.25rem;
             font-weight: 800;
-            margin: 0;
-            letter-spacing: -0.02em;
+            margin: 5px 0 0 0;
         }
 
         .btn-action {
@@ -270,14 +237,11 @@
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
             margin-top: 8px;
-            align-self: flex-start;
         }
 
         .btn-action:hover {
             background-color: var(--primary-light);
-            border-color: transparent;
         }
     </style>
 </head>
@@ -286,8 +250,8 @@
 <div class="app-container">
     <header>
         <div>
-            <h1>📦 3DPrint Cost <span class="badge-version">v2.0 PRO</span></h1>
-            <p>Gestão e cálculo inteligente de precificação para objetos fatiados</p>
+            <h1>📊 Calculadora de Impressão 3D <span class="badge-version">v2.1 PRO</span></h1>
+            <p>Layout moderno e fórmulas idênticas à planilha Excel</p>
         </div>
     </header>
 
@@ -314,32 +278,29 @@
                         <label>Tempo de Impressão (Horas)</label>
                         <input type="number" id="tempoImpressao" value="3" oninput="calcular()">
                     </div>
-                    <div class="form-group with-prefix">
-                        <label>Tarifa de Energia (por kWh)</label>
-                        <div class="input-wrapper">
-                            <span class="input-prefix">R$</span>
-                            <input type="number" id="tarifa" value="0.90" step="0.01" oninput="calcular()">
-                        </div>
+                    <div class="form-group">
+                        <label>Tarifa de Energia</label>
+                        <input type="number" id="tarifa" value="3" oninput="calcular()">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Consumo da Impressora (Watts)</label>
-                    <input type="number" id="consumo" value="250" oninput="calcular()">
+                    <label>Consumo da Impressora</label>
+                    <input type="number" id="consumo" value="4" oninput="calcular()">
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-header-title">💼 2. Mão de Obra & Margens</div>
+                <div class="card-header-title">💼 2. Mão de Obra & Adicionais</div>
                 <div class="form-grid-2">
                     <div class="form-group with-prefix">
-                        <label>Preço cobrado por Hora</label>
+                        <label>Preço da Hora</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">R$</span>
                             <input type="number" id="precoHora" value="60" oninput="calcular()">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Tempo Dedicado (Horas)</label>
+                        <label>Tempo em Horas (h)</label>
                         <input type="number" id="tempoHoras" value="5" oninput="calcular()">
                     </div>
                 </div>
@@ -352,7 +313,7 @@
                         </div>
                     </div>
                     <div class="form-group with-prefix">
-                        <label>Outros Custos adicionais</label>
+                        <label>Outros Custos</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">R$</span>
                             <input type="number" id="outrosCustos" value="0" oninput="calcular()">
@@ -360,7 +321,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Margem de Lucro Pretendida (%)</label>
+                    <label>% de Lucro Desejado (Ex: 100 para 100%)</label>
                     <input type="number" id="lucro" value="100" oninput="calcular()">
                 </div>
             </div>
@@ -369,65 +330,66 @@
                 <div class="card-header-title">⚙️ 3. Assistente de Custo de Hora (Aba Config)</div>
                 <div class="form-grid-2">
                     <div class="form-group with-prefix">
-                        <label>Salário Mínimo Base</label>
+                        <label>Salário Mínimo</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">R$</span>
                             <input type="number" id="salarioMinimo" value="1621" oninput="calcularMO()">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Qtd. de Salários Mínimos</label>
+                        <label>Qtd. Salários Mínimos</label>
                         <input type="number" id="qtdSalario" value="3" oninput="calcularMO()">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Total de Horas Mensais Úteis</label>
+                    <label>Total Horas Mensais</label>
                     <input type="number" id="horasMensais" value="168" oninput="calcularMO()">
                 </div>
                 <div style="margin-top: 10px; font-size: 0.9rem; color: var(--text-muted);">
-                    Sugestão de valor/hora com base no mercado técnico: <strong id="valHoraSugerido" style="color: var(--primary)">R$ 28,95</strong>
-                    <br><button class="btn-action" onclick="aplicarHoraSugerida()">Utilizar esta sugestão no campo de M.O.</button>
+                    Valor calculado da hora: <strong id="valHoraSugerido" style="color: var(--primary)">R$ 28,95</strong>
+                    <br><button class="btn-action" onclick="aplicarHoraSugerida()">Aplicar este valor acima</button>
                 </div>
             </div>
         </div>
 
         <div class="results-sidebar">
-            <div class="card results-card">
-                <div class="card-header-title">📋 Relatório Consolidado</div>
+            <div class="card">
+                <div class="card-header-title">📋 Resumo Consolidado</div>
                 
                 <div class="result-row">
-                    <span class="result-label"><span>🧵</span> Custo de Filamento</span>
+                    <span class="result-label">Consumo de Filamento</span>
                     <span class="result-value" id="resFilamento">R$ 0,00</span>
                 </div>
                 <div class="result-row">
-                    <span class="result-label"><span>⚡</span> Despesa de Energia</span>
+                    <span class="result-label">Consumo de Energia</span>
                     <span class="result-value" id="resEnergia">R$ 0,00</span>
                 </div>
                 <div class="result-row">
-                    <span class="result-label"><span>🛠️</span> Custo Operacional (M.O.)</span>
-                    <span class="result-value" id="resMaoObra">R$ 0,00</span>
-                </div>
-                <div class="result-row">
-                    <span class="result-label"><span>📦</span> Taxa "Outras Obras"</span>
+                    <span class="result-label">Outras Obras</span>
                     <span class="result-value" id="resOutrasObras">R$ 0,00</span>
                 </div>
                 <div class="result-row">
-                    <span class="result-label"><span>🧩</span> Custos Adicionais</span>
+                    <span class="result-label">Outros Custos</span>
                     <span class="result-value" id="resOutrosCustos">R$ 0,00</span>
                 </div>
                 
                 <div class="result-row custo-total-box">
-                    <span class="result-label">CUSTO DE PRODUÇÃO</span>
+                    <span class="result-label">CUSTO TOTAL (Fórmula Excel)</span>
                     <span class="result-value" id="resCustoTotal">R$ 0,00</span>
                 </div>
 
-                <div class="result-row profit-box">
-                    <span class="result-label" style="color: var(--success); font-weight: 500;">Lucro Bruto Calculado</span>
+                <div class="result-row">
+                    <span class="result-label">Valor da Mão de Obra</span>
+                    <span class="result-value" id="resMaoObra">R$ 0,00</span>
+                </div>
+
+                <div class="result-row" style="color: var(--success);">
+                    <span class="result-label" style="color: var(--success);">Total de Lucro</span>
                     <span class="result-value" id="resTotalLucro">R$ 0,00</span>
                 </div>
 
                 <div class="pricing-hero">
-                    <div class="pricing-hero-title">Preço de Venda Sugerido</div>
+                    <div class="pricing-hero-title">Preço Sugerido de Venda</div>
                     <h2 class="pricing-hero-value" id="resPrecoSugerido">R$ 0,00</h2>
                 </div>
             </div>
@@ -451,13 +413,16 @@ function calcularMO() {
 }
 
 function aplicarHoraSugerida() {
-    const valor = (parseFloat(document.getElementById('salarioMinimo').value) * parseFloat(document.getElementById('qtdSalario').value)) / parseFloat(document.getElementById('horasMensais').value);
+    const salario = parseFloat(document.getElementById('salarioMinimo').value) || 0;
+    const qtd = parseFloat(document.getElementById('qtdSalario').value) || 0;
+    const horas = parseFloat(document.getElementById('horasMensais').value) || 1;
+    const valor = (salario * qtd) / horas;
     document.getElementById('precoHora').value = valor.toFixed(2);
     calcular();
 }
 
 function calcular() {
-    // Inputs
+    // Inputs (Garantindo que puxa o ID correto 'lucro')
     const precoFilamento = parseFloat(document.getElementById('precoFilamento').value) || 0;
     const gramas = parseFloat(document.getElementById('gramas').value) || 0;
     const tempoImpressao = parseFloat(document.getElementById('tempoImpressao').value) || 0;
@@ -470,30 +435,33 @@ function calcular() {
     const outrosCustos = parseFloat(document.getElementById('outrosCustos').value) || 0;
     const lucroPercentual = parseFloat(document.getElementById('lucro').value) || 0;
 
-    // Fórmulas aritméticas
+    // Fórmulas exatas extraídas do seu Excel original
     const consumoFilamento = (precoFilamento / 1000) * gramas;
-    const consumoEnergia = ((consumo * tempoImpressao) / 1000) * tarifa; 
+    const consumoEnergia = tempoImpressao * tarifa * consumo * 0.06; 
     const valorMaoObra = precoHora * tempoHoras;
-    const totalOutrosCustos = outrasObras + outrosCustos;
     
-    const custoTotal = consumoFilamento + consumoEnergia + valorMaoObra + totalOutrosCustos;
+    const custoTotal = consumoFilamento + outrasObras + outrosCustos + consumoEnergia;
+    
+    // Cálculo da margem em percentual (Ex: 100 digitado significa 100% de lucro)
     const totalLucro = custoTotal * (lucroPercentual / 100);
-    const precoSugerido = custoTotal + totalLucro;
+    const precoSugerido = custoTotal + totalLucro + valorMaoObra;
 
-    // Render na UI de forma assíncrona/reativa
+    // Atualizar os campos com segurança
     document.getElementById('resFilamento').innerText = formatarMoeda(consumoFilamento);
     document.getElementById('resEnergia').innerText = formatarMoeda(consumoEnergia);
-    document.getElementById('resMaoObra').innerText = formatarMoeda(valorMaoObra);
     document.getElementById('resOutrasObras').innerText = formatarMoeda(outrasObras);
     document.getElementById('resOutrosCustos').innerText = formatarMoeda(outrosCustos);
     document.getElementById('resCustoTotal').innerText = formatarMoeda(custoTotal);
+    document.getElementById('resMaoObra').innerText = formatarMoeda(valorMaoObra);
     document.getElementById('resTotalLucro').innerText = formatarMoeda(totalLucro);
     document.getElementById('resPrecoSugerido').innerText = formatarMoeda(precoSugerido);
 }
 
-// Inicialização da página
-calcularMO();
-calcular();
+// Inicialização segura
+window.onload = function() {
+    calcularMO();
+    calcular();
+};
 </script>
 
 </body>
